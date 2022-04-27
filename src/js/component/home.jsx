@@ -1,26 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
-
-//create your first component
-const Home = () => {
+export default function App() {
+	const [tarea, setTarea] = useState("");
+	const [lista, setLista] = useState([]);
+	function borrar(i) {
+		let resultado = lista.filter((valor, index) => {
+			return index != i;
+		});
+		setLista(resultado);
+	}
 	return (
-		<div>
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+		<div className="App">
+			<h1>To do list de Joana</h1>
+			<input
+				placeholder="escribe tu tarea"
+				onChange={(e) => {
+					setTarea(e.target.value);
+				}}
+			/>
+
+			<button
+				type="button"
+				class="btn btn-primary"
+				onClick={() => {
+					setLista([...lista, tarea]);
+				}}>
+				Añadir tarea
+			</button>
+			<br></br>
+			<br></br>
+			<ul>
+				{lista.map(function (valor, i) {
+					return (
+						<li key={i}>
+							{valor}
+							<button
+								type="button"
+								class="btn btn-danger"
+								onClick={() => {
+									borrar(i);
+								}}>
+								X
+							</button>
+						</li>
+					);
+				})}
+			</ul>
 		</div>
 	);
-};
-
-export default Home;
+}
